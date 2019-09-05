@@ -4,11 +4,12 @@
 	<title>HDX CVA Dashboard</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/site.css"/>
+	<!--link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/loader.css"/>
     <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
     <link rel="stylesheet" type="text/css" href="css/c3.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/site.css"/>
     <script src="js/jquery.js"></script>
     <script src="js/d3.min.js"></script>
     <script src="js/d3.tip.min.js"></script>
@@ -17,47 +18,134 @@
     <script src="js/leaflet.js"></script>
     <script src="js/dc.leaflet.js"></script>
     <script src="js/c3.min.js"></script>
+    <script src="https://kit.fontawesome.com/39e5643f1a.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-light bg-light" role="navigation">
-		<a href="#" class="navbar-brand">Regional Cash and Voucher mapping</a>
+	<nav class="navbar" role="navigation">
+		<a class="dash-title" href="http://www.cashlearning.org" target="_blank">
+         	<h1>Regional Cash and Voucher Assistance mapping</h1>
+         	<img src="img/calp-logo-landscape-white.svg" height="45" width="180">
+        </a>
 	</nav>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-4">
-				<div class="row">
-					Selections
-				</div>
-				<div class="row">
-					About
-				</div>
+			<div class="col-md-3 sidebar">
+				<h3><i class="fa fa-tachometer-alt"></i> Selections</h3>
+				<ul>
+					<li><h4>Date range</h4></li>
+					<li><h4>Sector</h4></li>
+					<li><h4>Modality</h4></li>
+					<li><h4>Country</h4></li>
+					<li><h4>Number of organizations to display</h4></li>
+				</ul>
+
+				<a href="#"><h3><i class="fa fa-info-circle"></i> About</h3></a>
 			</div>
-			<div class="col-md-8">
+
+			<div class="col-md-9 main-content">
 				<div class="row">
 					<div class="col-md-4">
-						<div class="header">
-							Key Figure and icon
+						<div class="keyfig">
+							<div class="keyfig-icon"><i class="fa fa-hand-holding-usd"></i></div>
+							<div class="keyfig-info">
+								<div class="num num-usd">XXX</div>
+								<div class="label">USD transferred</div>
+							</div>
 						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="keyfig">
+							<div class="keyfig-icon"><i class="fa fa-users"></i></div>
+							<div class="keyfig-info">
+								<div class="num num-households">XXX</div>
+								<div class="label">Households assisted</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="keyfig">
+							<div class="keyfig-icon"><i class="fa fa-building"></i></div>
+							<div class="keyfig-info">
+								<div class="num num-org">XXX</div>
+								<div class="label">Contracting organizations</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
 						<div class="chart-container">
-							Modality
+							<div class="chart-header">
+								<div class="tab">Modality</div>
+								<div class="title">Amount</div>
+							</div>
+							<div class="chart chart-amount">chart goes here</div>
+							<div class="chart-footer">For of assistance: Cash transfer, vouchers or mixed</div>
 						</div>
-						
 					</div>
 					<div class="col-md-4">
-						Sector
+						<div class="chart-container">
+							<div class="chart-header">
+								<div class="tab">Number of Households</div>
+								<div class="title">Sector</div>
+							</div>
+							<div class="chart chart-sector">chart goes here</div>
+							<div class="chart-footer">Beneficiaries by sector</div>
+						</div>
 					</div>
 					<div class="col-md-4">
-						Organizatiopn
+						<div class="chart-container">
+							<div class="chart-header">
+								<div class="tab">Contracting</div>
+								<div class="title">Organization</div>
+							</div>
+							<div class="chart chart-org">chart goes here</div>
+							<div class="chart-footer">The charts show the number of households assisted by contracting and implementing organizations</div>
+						</div>
 					</div>
 				</div>
+
 				<div class="row">
 					<div class="col-md-6">
-						Map
+						<div class="chart-container large">
+							<div class="chart-header">
+								<div class="title">Map</div>
+							</div>
+
+							<div class="chart chart-map">map goes here</div>
+
+							<div class="chart-footer">This map show the number of household assisted at the admin 1 level</div>
+						</div>
 					</div>
 					<div class="col-md-6">
-						Data table
+						<div class="chart-container large">
+							<div class="chart-header">
+								<div class="title">Data</div>
+							</div>
+
+							<div class="chart chart-table">table goes here</div>
+
+							<div class="chart-footer">Number of beneficiaries broken down by country and admin 1 level</div>
+						</div>
 					</div>
 				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="powered-by">
+							<span>
+								Powered by
+								<a href="https://data.humdata.org" target="_blank">
+									<img src="img/hdx_logo.svg" height="84" width="84">
+								</a>
+							</span>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>

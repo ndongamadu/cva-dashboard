@@ -1,0 +1,162 @@
+body {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.navbar {
+	background-color: #EBEBEB;
+  	justify-content: center;
+}
+.navbar a {
+	align-items: center;
+	display: flex;
+  	justify-content: center;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+h1 {
+	color: #CD2027;
+	font-size: 18px;
+	font-weight: 700;
+}
+h3 {
+	background-color: #FFF;
+	color: #CD2027;
+	font-size: 14px;
+	font-weight: 700;
+	margin: 15px 0;
+	padding: 12px 15px;
+}
+h4 {
+	color: #FFF;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+ul li {
+	list-style-type: none;
+}
+
+.row {
+	margin-top: 15px;
+}
+.row:first-child {
+	margin-top: 15px;
+}
+.row:last-child {
+	margin-top: 0;
+}
+.row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+.row > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar {
+	background-color: #CD2027;
+	border-right: 1px solid #CD2027;
+	padding: 0 0 15px;
+}
+.sidebar i {
+	padding-right: 5px;
+}
+
+.main-content {
+	padding: 0 15px;
+}
+
+.keyfig {
+	background-color: #F9EBD1;
+	display: flex;
+	height: 100%;
+}
+.keyfig-icon {
+	align-items: center;
+	background-color: #DD4B39;
+	color: #FFF;
+	display: flex;
+	justify-content: center;
+	width: 90px;
+}
+.keyfig-info {
+    font-weight: bold;
+    line-height: 18px;
+	padding: 10px;
+}
+.keyfig-icon .fa {
+	font-size: 45px;
+}
+.keyfig .num {
+	font-size: 24px;
+}
+.keyfig .label {
+	font-size: 18px;
+	margin-top: 10px;
+}
+
+.chart-container {
+	background-color: #EBEBEB;
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+}
+.chart-header {
+	align-items: center;
+	border-bottom: 1px solid #2D3B42;
+	display: flex;
+	justify-content: space-between;
+}
+.chart-header .tab {
+	background-color: #D2D2D2;
+	border-top: 3px solid #2D3B42;
+	font-size: 14px;
+	margin-bottom: -2px;
+	padding: 10px 15px;
+}
+.chart-header .title {
+	font-size: 18px;
+	font-weight: bold;
+	padding-right: 15px;
+}
+.chart {
+	margin: 10px;
+}
+.chart-footer {
+	background-color: #FFF;
+	font-size: 12px;
+	line-height: 14px;
+	margin: auto 10px 10px;
+	padding: 7px;
+}
+
+.chart-container.large .chart-header {
+	border-bottom: 0;
+	padding: 10px; 
+}
+
+.powered-by {
+	display: flex;
+    justify-content: flex-end;
+}
+.powered-by span {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+
+@media only screen and (max-width: 768px) {
+	.navbar a {
+		flex-flow: column;
+	}
+	.main-content [class*='col-'] {
+		margin-bottom: 15px;
+	}
+}
