@@ -2,6 +2,15 @@ body {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+main {
+	opacity: 1;
+	transition: opacity 0.5s ease;
+}
+
+main.hidden {
+	opacity: 0;
+}
+
 .navbar {
 	background-color: #EBEBEB;
   	justify-content: center;
@@ -140,6 +149,10 @@ ul li {
 .chart-container.large .chart-header {
 	border-bottom: 0;
 	padding: 10px; 
+}
+
+.c3-target-Vouchers text {
+	fill: black;
 }
 
 .powered-by {
