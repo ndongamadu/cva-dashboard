@@ -62,6 +62,7 @@ function createPieChart(){
   });
 }
 
+
 function createBarChart(id){
   //get values by tag
   var graphData = d3.nest()
@@ -110,6 +111,7 @@ function createBarChart(id){
   });
 }
 
+
 function createKeyFigures(){
   //usd
   var usd = d3.sum(cvaData.map(d=>d['#value+usd']));
@@ -127,7 +129,21 @@ function createKeyFigures(){
 }
 
 
-var tableColumns, table;
+function sortTable(id){
+  var data = tableData;
+  data.sort(function(a, b){
+    var x = a[id].toLowerCase();
+    var y = b[id].toLowerCase();
+    if (x < y) {return -1;}
+    if (x > y) {return 1;}
+    return 0;
+  });
+  return data;
+}
+
+
+var tableData = [];
+var tableHeaders = ['Adm1', 'Country', 'Reached', 'Amount'];
 function createTable(){
   //get values by adm1
   var tableGroups = d3.nest()
@@ -141,17 +157,21 @@ function createTable(){
     })
     .entries(cvaData);
 
-  var tableData = [];
+  //flatten data
   tableGroups.forEach(function(d){
     tableData.push([d.key, d.value.country, numFormat(d.value.reached), '$'+d3.format(',.2f')(d.value.amount)]);
   });
 
+  tableData = sortTable(0);
+  drawTable();
+}
 
+function drawTable(){
   var table = d3.select('.chart-table').append('table');
   var header = table.append('thead').append('tr');
   header
     .selectAll('th')
-    .data(['Adm1', 'Country', 'Reached', 'Amount'])
+    .data(tableHeaders)
     .enter()
       .append('th')
       .text(function(d) { return d; });
@@ -162,6 +182,8 @@ function createTable(){
     .data(tableData)
     .enter()
       .append('tr');
+
+  rows.exit().remove();
   
   var cells = rows.selectAll('td')
     .data(function(d) {
@@ -172,6 +194,8 @@ function createTable(){
       .text(function(d) {
         return d;
       });
+
+  cells.exit().remove();
 }
 
 
