@@ -29,6 +29,8 @@ function hxlProxyToJSON(input){
 
 var dataURL = 'https://proxy.hxlstandard.org/data.objects.json?url=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1PDflSEez41f-509wTh_Ss5DTk4XO36z1CLltU_uv-nI%2Fedit%23gid%3D0';
 var cvaData = '';
+var shortenNumFormat = d3.format('.2s');
+var numFormat = d3.format(',.0f');
 
 getData();
 
@@ -111,17 +113,65 @@ function createBarChart(id){
 function createKeyFigures(){
   //usd
   var usd = d3.sum(cvaData.map(d=>d['#value+usd']));
-  $('.num-usd').text(d3.format("(.2s")(usd));
+  $('.num-usd').text(shortenNumFormat(usd));
 
   //households
   var households = d3.sum(cvaData.map(d=>d['#reached']));
-  $('.num-households').text(d3.format(".2s")(households));
+  $('.num-households').text(shortenNumFormat(households));
 
   //orgs
   var orgs = d3.nest()
     .key(function(d) { return d['#org']; })
     .entries(cvaData);
   $('.num-org').text(orgs.length);
+}
+
+
+var tableColumns, table;
+function createTable(){
+  //get values by adm1
+  var tableGroups = d3.nest()
+    .key(function(d){ return d['#adm1+name']; })
+    .rollup(function(v){ 
+      return {
+        country: v[0]['#country+name'],
+        reached: d3.sum(v, function(d) { return d['#reached']; }),
+        amount: d3.sum(v, function(d) { return d['#value+usd']; })
+      };
+    })
+    .entries(cvaData);
+
+  var tableData = [];
+  tableGroups.forEach(function(d){
+    tableData.push([d.key, d.value.country, numFormat(d.value.reached), '$'+d3.format(',.2f')(d.value.amount)]);
+  });
+
+
+  var table = d3.select('.chart-table').append('table');
+  var header = table.append('thead').append('tr');
+  header
+    .selectAll('th')
+    .data(['Adm1', 'Country', 'Reached', 'Amount'])
+    .enter()
+      .append('th')
+      .text(function(d) { return d; });
+  
+  var tbody = table.append('tbody');
+  var rows = tbody
+    .selectAll('tr')
+    .data(tableData)
+    .enter()
+      .append('tr');
+  
+  var cells = rows.selectAll('td')
+    .data(function(d) {
+      return d;
+    })
+    .enter()
+      .append('td')
+      .text(function(d) {
+        return d;
+      });
 }
 
 
@@ -135,6 +185,7 @@ function getData() {
     createBarChart('sector');
     createBarChart('org');
     createKeyFigures();
+    createTable();
     
     //remove loader and show vis
     $('.loader').remove();

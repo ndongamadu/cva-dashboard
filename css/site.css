@@ -155,6 +155,31 @@ ul li {
 	fill: black;
 }
 
+table {
+	margin-bottom: 10px;
+}
+
+table, th, td {
+	border-bottom: 1px solid #D2D2D2;
+    border-top: 1px solid #D2D2D2;
+    border-collapse: collapse;
+ 	padding: 5px;
+}
+
+table thead {
+	background-color: #D2D2D2;
+	font-size: 12px;
+}
+
+table tbody {
+	font-size: 12px;
+	line-height: 14px;
+}
+
+table tbody tr:hover {
+	background-color: #FFF;
+}
+
 .powered-by {
 	display: flex;
     justify-content: flex-end;
