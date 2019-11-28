@@ -132,18 +132,20 @@ function createKeyFigures(){
 function sortTable(id){
   var data = tableData;
   data.sort(function(a, b){
-    var x = a[id].toLowerCase();
-    var y = b[id].toLowerCase();
-    if (x < y) {return -1;}
-    if (x > y) {return 1;}
+    var x = (id>1) ? parseInt(a[id].replace(/[,$]/g,"")) : a[id];
+    var y = (id>1) ? parseInt(b[id].replace(/[,$]/g,"")) : b[id];
+    if (x < y) { return (headerAscending[id]) ? -1 : 1; }
+    if (x > y) { return (headerAscending[id]) ? 1 : -1; }
     return 0;
   });
   return data;
 }
 
 
+var table;
 var tableData = [];
 var tableHeaders = ['Adm1', 'Country', 'Reached', 'Amount'];
+var headerAscending = [true, false, false, false];
 function createTable(){
   //get values by adm1
   var tableGroups = d3.nest()
@@ -159,31 +161,44 @@ function createTable(){
 
   //flatten data
   tableGroups.forEach(function(d){
-    tableData.push([d.key, d.value.country, numFormat(d.value.reached), '$'+d3.format(',.2f')(d.value.amount)]);
+    tableData.push([d.key, d.value.country, numFormat(d.value.reached), '$'+numFormat(d.value.amount)]);
   });
 
   tableData = sortTable(0);
-  drawTable();
-}
 
-function drawTable(){
-  var table = d3.select('.chart-table').append('table');
+  table = d3.select('.chart-table').append('table');
   var header = table.append('thead').append('tr');
   header
     .selectAll('th')
     .data(tableHeaders)
     .enter()
       .append('th')
-      .text(function(d) { return d; });
-  
+      .html(function(d) { return d + '<i class="fas fa-sort"></i>'; })
+      .on('click', function(d){
+        var index = 0;
+        tableHeaders.forEach(function(header, i){
+          if (header==d) {
+            index = i;
+            headerAscending.forEach(function(d, j) {
+              headerAscending[j] = (j==i) ? !headerAscending[j] : false;
+            });
+          }
+        });
+        table.selectAll('tbody').remove();
+        tableData = sortTable(index);
+        drawTableRows();
+      });
+
+  drawTableRows();
+}
+
+function drawTableRows(){
   var tbody = table.append('tbody');
   var rows = tbody
     .selectAll('tr')
     .data(tableData)
     .enter()
       .append('tr');
-
-  rows.exit().remove();
   
   var cells = rows.selectAll('td')
     .data(function(d) {
@@ -194,8 +209,6 @@ function drawTable(){
       .text(function(d) {
         return d;
       });
-
-  cells.exit().remove();
 }
 
 

@@ -166,6 +166,15 @@ table, th, td {
  	padding: 5px;
 }
 
+table th {
+	cursor: pointer;
+}
+
+table th i.fas {
+	display: inline;
+    padding-left: 3px;
+}
+
 table thead {
 	background-color: #D2D2D2;
 	font-size: 12px;
