@@ -6,11 +6,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.11/c3.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/leaflet.css" />
     <link rel="stylesheet" type="text/css" href="css/loader.css"/>
     <link rel="stylesheet" type="text/css" href="css/site.css"/>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="js/leaflet.js"></script>
     <script src="https://d3js.org/d3.v5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.11/c3.min.js"></script>
+    <script src="data/adm1.js"></script>
     <script src="js/site.js"></script>
     <script src="https://kit.fontawesome.com/39e5643f1a.js"></script>
 </head>
@@ -115,7 +118,9 @@
 									<div class="title">Map</div>
 								</div>
 
-								<div class="chart chart-map">map goes here</div>
+								<div class="chart chart-map">
+									<div id="map"></div>
+								</div>
 
 								<div class="chart-footer">This map show the number of household assisted at the admin 1 level</div>
 							</div>

@@ -211,6 +211,34 @@ function drawTableRows(){
       });
 }
 
+function styleMap (feature) {
+  return {
+    fillColor: '#CD2027',
+    weight: 0.9,
+    opacity: 0.6,
+    color: 'black',
+    fillOpacity: 0.6
+  }
+}
+
+function generateMap (argument) {
+  var map = L.map('map',
+    { maxZoom: 19,
+      minZoom: 2
+    });
+  map.setView([5.69, 10.26], 4);
+  L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="http://www.openstreetmap.org/'+
+                    +'copyright">OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/"'
+                    +'target="_blank">Humanitarian OpenStreetMap Team</a>'
+    }).addTo(map);
+
+  L.geoJson(adm1,
+    {
+      style: styleMap
+    }).addTo(map);
+}
 
 function getData() {
   Promise.all([
@@ -223,7 +251,7 @@ function getData() {
     createBarChart('org');
     createKeyFigures();
     createTable();
-    
+    generateMap()
     //remove loader and show vis
     $('.loader').remove();
     $('main').removeClass('hidden');
