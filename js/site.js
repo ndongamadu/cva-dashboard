@@ -240,12 +240,45 @@ function generateMap (argument) {
     }).addTo(map);
 }
 
+function genDropdowns (nom, filter) {
+  let name = nom.charAt(0).toUpperCase() + nom.substring(1);
+  let dropdwn = '<h4>'+name+'</h4><select class="dropdwn" id="'+name+'">';
+  for (var i = 0; i < filter.length; i++) {
+    i==0 ? dropdwn += '<option value="'+filter[i]+'" selected >'+filter[i]+'</option>' :
+    dropdwn += '<option value="'+filter[i]+'">'+filter[i]+'</option>';
+  }
+  dropdwn +='</select>';
+  $('#selections').append(dropdwn);
+
+}
+
 function getData() {
   Promise.all([
     d3.json(dataURL)
   ]).then(function(data){
     cvaData = data[0];
-
+    let sectors = [],
+        conditionalities = [],
+        modalities = [],
+        countries = [];
+    let filters = ['#sector', '#indicator+modality', '#indicator+conditionality', '#country+name'];
+    for (i in filters){
+      let values = d3.nest()
+          .key(function(d){ return d[filters[i]]; })
+          .entries(cvaData);
+      let keys = ['All values selected'];
+      values.forEach(function(d){
+        keys.includes(d.key) ? '' : keys.push(d.key);
+      });
+      filters[i] == '#sector' ? sectors = keys :
+      filters[i] == '#indicator+modality' ? modalities = keys :
+      filters[i] == '#indicator+conditionality' ? conditionalities = keys :
+      filters[i] == '#country+name' ? countries = keys : '';
+    }
+    genDropdowns('country', countries);
+    genDropdowns('modality', modalities);
+    genDropdowns('conditionality', conditionalities);
+    genDropdowns('sectors', sectors);
     createPieChart();
     createBarChart('sector');
     createBarChart('org');

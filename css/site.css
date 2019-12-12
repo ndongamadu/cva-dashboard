@@ -78,6 +78,14 @@ ul li {
 	padding-right: 5px;
 }
 
+#selections{
+	padding-left: 15px;
+}
+
+.dropdwn {
+	height: 30px;
+	margin-bottom: 10px;
+}
 .main-content {
 	padding: 0 15px;
 }
