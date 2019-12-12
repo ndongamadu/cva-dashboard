@@ -35,11 +35,11 @@ var numFormat = d3.format(',.0f');
 getData();
 
 
-function createPieChart(){
+function createPieChart(data){
   var modalityData = d3.nest()
     .key(function(d){ return d['#indicator+modality']; })
     .rollup(function(leaves){  return leaves.length; })
-    .entries(cvaData);
+    .entries(data);
 
   modalityArray = [];
   modalityData.forEach(function(d){
@@ -63,12 +63,12 @@ function createPieChart(){
 }
 
 
-function createBarChart(id){
+function createBarChart(id, data){
   //get values by tag
   var graphData = d3.nest()
     .key(function(d){ return d['#'+id]; })
     .rollup(function(leaves){ return leaves.length; })
-    .entries(cvaData);
+    .entries(data);
 
   //sort data in descending order
   graphData.sort((a, b) => (a.value < b.value) ? 1 : -1)
@@ -146,6 +146,7 @@ var table;
 var tableData = [];
 var tableHeaders = ['Adm1', 'Country', 'Reached', 'Amount'];
 var headerAscending = [true, false, false, false];
+
 function createTable(){
   //get values by adm1
   var tableGroups = d3.nest()
@@ -191,6 +192,7 @@ function createTable(){
 
   drawTableRows();
 }
+
 
 function drawTableRows(){
   var tbody = table.append('tbody');
@@ -240,9 +242,26 @@ function generateMap (argument) {
     }).addTo(map);
 }
 
+function updateViz (argument) {
+  let countryFiltered = $('#country option:selected').text();
+  let modalityFiltered = $('#modality option:selected').text();
+  let condFiltered = $('#conditionality option:selected').text();
+  let sectorFiltered = $('#sector option:selected').text();
+
+  let newData = cvaData;
+  countryFiltered != 'All values selected' ? newData = newData.filter(function(d){return d['#country+name'] == countryFiltered ;}): '';
+  modalityFiltered != 'All values selected' ? newData = newData.filter(function(d){return d['#indicator+modality'] == modalityFiltered ;}): '';
+  condFiltered != 'All values selected' ? newData = newData.filter(function(d){return d['#indicator+conditionality'] == condFiltered ;}): '';
+  sectorFiltered != 'All values selected' ? newData = newData.filter(function(d){return d['#sector'] == sectorFiltered ;}): '';
+  
+  createPieChart(newData);
+  createBarChart('sector', newData);
+  createBarChart('org', newData);
+}
+
 function genDropdowns (nom, filter) {
   let name = nom.charAt(0).toUpperCase() + nom.substring(1);
-  let dropdwn = '<h4>'+name+'</h4><select class="dropdwn" id="'+name+'">';
+  let dropdwn = '<h4>'+name+'</h4><select class="dropdwn" id="'+nom+'">';
   for (var i = 0; i < filter.length; i++) {
     i==0 ? dropdwn += '<option value="'+filter[i]+'" selected >'+filter[i]+'</option>' :
     dropdwn += '<option value="'+filter[i]+'">'+filter[i]+'</option>';
@@ -250,6 +269,22 @@ function genDropdowns (nom, filter) {
   dropdwn +='</select>';
   $('#selections').append(dropdwn);
 
+  $('#'+nom).on('change', function(d){
+    updateViz();
+  });
+
+}
+
+function reset (argument) {
+    $('#country').val('All values selected');
+    $('#modality').val('All values selected');
+    $('#conditionality').val('All values selected');
+    $('#sector').val('All values selected');
+    createPieChart(cvaData);
+    createBarChart('sector', cvaData);
+    createBarChart('org', cvaData);
+    createKeyFigures();
+    createTable();
 }
 
 function getData() {
@@ -278,13 +313,13 @@ function getData() {
     genDropdowns('country', countries);
     genDropdowns('modality', modalities);
     genDropdowns('conditionality', conditionalities);
-    genDropdowns('sectors', sectors);
-    createPieChart();
-    createBarChart('sector');
-    createBarChart('org');
+    genDropdowns('sector', sectors);
+    createPieChart(cvaData);
+    createBarChart('sector', cvaData);
+    createBarChart('org', cvaData);
     createKeyFigures();
     createTable();
-    generateMap()
+    generateMap();
     //remove loader and show vis
     $('.loader').remove();
     $('main').removeClass('hidden');

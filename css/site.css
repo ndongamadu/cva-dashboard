@@ -85,7 +85,18 @@ ul li {
 .dropdwn {
 	height: 30px;
 	margin-bottom: 10px;
+	font-size: 13px;
 }
+.pull-right {
+	float: right;
+}
+
+.reset {
+	color: #CD2027;
+	font-weight: 700;
+	padding-top: 0;
+}
+
 .main-content {
 	padding: 0 15px;
 }
