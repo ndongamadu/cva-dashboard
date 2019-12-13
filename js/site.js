@@ -112,19 +112,19 @@ function createBarChart(id, data){
 }
 
 
-function createKeyFigures(){
+function createKeyFigures(data){
   //usd
-  var usd = d3.sum(cvaData.map(d=>d['#value+usd']));
+  var usd = d3.sum(data.map(d=>d['#value+usd']));
   $('.num-usd').text(shortenNumFormat(usd));
 
   //households
-  var households = d3.sum(cvaData.map(d=>d['#reached']));
+  var households = d3.sum(data.map(d=>d['#reached']));
   $('.num-households').text(shortenNumFormat(households));
 
   //orgs
   var orgs = d3.nest()
     .key(function(d) { return d['#org']; })
-    .entries(cvaData);
+    .entries(data);
   $('.num-org').text(orgs.length);
 }
 
@@ -213,7 +213,26 @@ function drawTableRows(){
       });
 }
 
+function getColor (d) {
+  return d > 200000 ? '#CD2027' :
+         d > 100000 ? '#F9EBD1' :
+         d > 50000 ? '#D2D2D2' : 'FFEDA0';
+}
+
 function styleMap (feature) {
+  // let newData = cvaData;
+  // let countryFiltered = $('#country option:selected').text();
+
+  // countryFiltered != 'All values selected' ? newData = newData.filter(function(d){return d['#country+name'] == countryFiltered ;}): '';
+  // newData = newData.filter(function(d){return d['#adm1+name'] == feature.properties.admin1Name; });
+
+  // let reachedAdm1 = d3.nest()
+  //   .key(function(d){ return d['#adm1+name']; })
+  //   .rollup(function(v){
+  //     return d3.sum(v, function(d) { return d['#reached']; })
+  //   })
+  //   .entries(newData);
+
   return {
     fillColor: '#CD2027',
     weight: 0.9,
@@ -257,6 +276,7 @@ function updateViz (argument) {
   createPieChart(newData);
   createBarChart('sector', newData);
   createBarChart('org', newData);
+  createKeyFigures(newData);
 }
 
 function genDropdowns (nom, filter) {
@@ -283,8 +303,7 @@ function reset (argument) {
     createPieChart(cvaData);
     createBarChart('sector', cvaData);
     createBarChart('org', cvaData);
-    createKeyFigures();
-    createTable();
+    createKeyFigures(cvaData);
 }
 
 function getData() {
@@ -317,7 +336,7 @@ function getData() {
     createPieChart(cvaData);
     createBarChart('sector', cvaData);
     createBarChart('org', cvaData);
-    createKeyFigures();
+    createKeyFigures(cvaData);
     createTable();
     generateMap();
     //remove loader and show vis
