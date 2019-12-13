@@ -27,7 +27,7 @@ function hxlProxyToJSON(input){
 }
 
 
-var dataURL = 'https://proxy.hxlstandard.org/data.objects.json?url=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1PDflSEez41f-509wTh_Ss5DTk4XO36z1CLltU_uv-nI%2Fedit%23gid%3D0';
+var dataURL = 'https://proxy.hxlstandard.org/data.objects.json?url=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1PDflSEez41f-509wTh_Ss5DTk4XO36z1CLltU_uv-nI%2Fedit%23gid%3D0&force=on';
 var cvaData = '';
 var shortenNumFormat = d3.format('.2s');
 var numFormat = d3.format(',.0f');
@@ -67,7 +67,7 @@ function createBarChart(id, data){
   //get values by tag
   var graphData = d3.nest()
     .key(function(d){ return d['#'+id]; })
-    .rollup(function(leaves){ return leaves.length; })
+    .rollup(function(values){ return d3.sum(values, function(d){ return +d['#reached']; })})
     .entries(data);
 
   //sort data in descending order
