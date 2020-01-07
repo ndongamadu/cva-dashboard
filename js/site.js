@@ -73,6 +73,19 @@ function createBarChart(id, data){
   //sort data in descending order
   graphData.sort((a, b) => (a.value < b.value) ? 1 : -1)
 
+  //reduce list if over max
+  var maxLength = 12;
+  var otherValue = 0;
+  if (graphData.length > maxLength){
+    for (var i=graphData.length-1; i>0; i--){
+      if (i >= maxLength){
+        otherValue += graphData[i].value;
+        graphData.splice(i, 1);
+      }
+    }
+    graphData.push({key: 'Other', value: otherValue});
+  }
+
   //format data for bar chart
   categoryArray = ['x'];
   graphArray = ['Value'];
